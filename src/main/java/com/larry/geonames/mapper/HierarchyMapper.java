@@ -22,11 +22,17 @@ public interface HierarchyMapper extends BaseMapper<Hierarchy> {
             ")")
     List<String> findChildrenByName(@Param("name") String name);
 
-    @Select("SELECT c.name " +
+    @Select("SELECT c.geonameid " +
             "FROM allcountries c " +
             "JOIN hierarchy h ON c.geonameid = h.child_id " +
             "WHERE h.parent_id = #{geonameId}")
-    List<String> getChildrenById(Integer geonameId);
+    List<Integer> getChildrenById(Integer geonameId);
+
+    @Select("SELECT c.geonameid " +
+            "FROM allcountries c " +
+            "JOIN hierarchy h ON c.geonameid = h.child_id " +
+            "WHERE h.parent_id = #{geonameId}")
+    List<Integer> getChildrenIdsById(Integer geonameId);
 
     @Select("select COUNT(1) FROM hierarchy WHERE parent_id = #{geonameId}")
     int isParent(Integer geonameId);

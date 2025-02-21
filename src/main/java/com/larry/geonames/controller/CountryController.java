@@ -21,8 +21,9 @@ public class CountryController {
      * @return
      */
     @GetMapping("/search")
-    public Result searchCountryInfo(@RequestParam String name) {
-        Object result = countryService.getCountryInfoByName(name);
+    public Result searchCountryInfo(@RequestParam("name") String name,
+                                    @RequestParam(value = "language", required = false, defaultValue = "en") String language) {
+        Object result = countryService.getCountryInfoByName(name, language);
         return Result.ok(result);
     }
 
@@ -32,14 +33,16 @@ public class CountryController {
      * @return
      */
     @GetMapping("/{geonameId}")
-    public Result searchCountryById(@PathVariable Integer geonameId) {
-        CountryDto countryDto = countryService.searchCountryById(geonameId);
+    public Result searchCountryById(@PathVariable Integer geonameId,
+                                    @RequestParam(value = "language", required = false, defaultValue = "en") String language) {
+        CountryDto countryDto = countryService.searchCountryById(geonameId, language);
         return Result.ok(countryDto);
     }
 
     @GetMapping("/children")
-    public Result getInfoById(@RequestParam Integer geonameId) {
-        List<String> childrenNames = countryService.getChildrenById(geonameId);
+    public Result getInfoById(@RequestParam Integer geonameId,
+                              @RequestParam(value = "language", required = false, defaultValue = "en") String language) {
+        List<String> childrenNames = countryService.getChildrenById(geonameId, language);
         return Result.ok(childrenNames);
     }
 }
